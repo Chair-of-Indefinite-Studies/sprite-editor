@@ -32,6 +32,9 @@
 	Model.prototype = Object.create(Observable.prototype);
 	Model.prototype.constructor = Model;
 	Model.prototype.paintPixel = function(x, y){
+		if (x < 0 || x >= this.columns || y < 0 || y >= this.rows) {
+			throw new Error('Not within bounds: (' + x + ',' + y + ')');
+		}
 		var column = this.pixels[x] = this.pixels[x] || {};
 		column[y] = this.brushColor;
 		this.signal('paint', x, y, this.brushColor);
@@ -120,7 +123,13 @@
 			var column = Math.floor(x/view.pixelSize);
 			var row = Math.floor(y/view.pixelSize);
 
-			model.paintPixel(column, row);
+			try {
+				model.paintPixel(column, row);
+			} catch(e) {
+				if (!e.message.match(/^Not within bounds/)) {
+					throw e;
+				}
+			}
 		}
 	};
 })(window.sprite = window.sprite || {});

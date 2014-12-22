@@ -62,6 +62,14 @@ describe('sprite', function(){
 				expect(model.colorAt(0,0)).toBe('none');
 			});
 
+			it('should throw an error on out of bounds paint', function(){
+				var model = new sprite.editor.Model(expectedColumns, expectedRows);
+				expect(function(){ model.paintPixel(-1,0); }).toThrow();
+				expect(function(){ model.paintPixel(0,-1); }).toThrow();
+				expect(function(){ model.paintPixel(expectedColumns,0); }).toThrow();
+				expect(function(){ model.paintPixel(0,expectRows); }).toThrow();
+			});
+
 			describe('notifications', function(){
 				it('should notify of pixel paint', function(){
 					var notified = false;
