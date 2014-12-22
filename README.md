@@ -31,5 +31,5 @@ new sprite.editor.View(model, canvas);
 The controller translates click events to model changes.
 
 ```js
-canvas.addEventListener('keydown', sprite.editor.controllerFor(model, canvas));
+canvas.addEventListener('mousedown', sprite.editor.controllerFor(model, canvas));
 ```
