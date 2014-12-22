@@ -57,11 +57,12 @@
 	var View = sprite.editor.View = function(model, canvas){
 		this.model = model;
 		this.canvas = canvas;
+		this.model.on('paint', this.update.bind(this));
 		this.initialize();
 		this.update();
 	};
 	View.prototype.initialize = function(){
-		this.pixelSize = Math.max(
+		this.pixelSize = Math.min(
 			this.canvas.width/this.model.columns,
 			this.canvas.height/this.model.rows
 		);
@@ -88,15 +89,38 @@
 		this.context.strokeStyle = 'gray';
 		this.context.beginPath();
 		for (var x = 0; x <= this.model.columns; x++) {
-			this.context.moveTo(x * this.pixelSize, 0);
-			this.context.lineTo(x * this.pixelSize, this.canvas.height);
+			this.context.moveTo(
+				x * this.pixelSize + this.horizontalOffset,
+				this.verticalOffset
+			);
+			this.context.lineTo(
+				x * this.pixelSize + this.horizontalOffset,
+				this.canvas.height - this.verticalOffset
+			);
 		}
-		for (var y = 0; y <= this.model.columns; y++) {
-			this.context.moveTo(0, y * this.pixelSize);
-			this.context.lineTo(this.canvas.width, y * this.pixelSize);
+		for (var y = 0; y <= this.model.rows; y++) {
+			this.context.moveTo(
+				this.horizontalOffset,
+				y * this.pixelSize + this.verticalOffset
+			);
+			this.context.lineTo(
+				this.canvas.width - this.horizontalOffset,
+				y * this.pixelSize - this.verticalOffset
+			);
 		}
 		this.context.stroke();
 		this.context.restore();
 	}
 
+	editor.controllerFor = function(model, view){
+		return function(event){
+			var x = event.clientX - view.horizontalOffset - this.offsetLeft;
+			var y = event.clientY - view.verticalOffset - this.offsetTop;
+
+			var column = Math.floor(x/view.pixelSize);
+			var row = Math.floor(y/view.pixelSize);
+
+			model.paintPixel(column, row);
+		}
+	};
 })(window.sprite = window.sprite || {});
