@@ -1,0 +1,23 @@
+{
+  "name": "cois-sprite-editor",
+  "version": "1.0.0",
+  "homepage": "https://github.com/Chair-of-Indefinite-Studies/sprite-editor",
+  "authors": [
+    "dvberkel <daan.v.berkel.1980@gmail.com>"
+  ],
+  "description": "A canvas based editor to create sprites",
+  "main": "index.js",
+  "keywords": [
+    "canvas",
+    "sprite",
+    "editor"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
