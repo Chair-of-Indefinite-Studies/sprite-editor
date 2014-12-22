@@ -46,4 +46,57 @@
 		this.brushColor = color !== undefined ? color : defaultModelOptions.brushColor;
 		this.signal('color', this.brushColor);
 	}
+	Model.prototype.forEachPixel = function(callback){
+		for (var x in this.pixels) {
+			for (var y in this.pixels[x]) {
+				callback(x, y, this.pixels[x][y]);
+			}
+		}
+	};
+
+	var View = sprite.editor.View = function(model, canvas){
+		this.model = model;
+		this.canvas = canvas;
+		this.initialize();
+		this.update();
+	};
+	View.prototype.initialize = function(){
+		this.pixelSize = Math.max(
+			this.canvas.width/this.model.columns,
+			this.canvas.height/this.model.rows
+		);
+		this.context = this.canvas.getContext('2d');
+		this.horizontalOffset = (this.canvas.width - this.model.columns * this.pixelSize)/2;
+		this.verticalOffset = (this.canvas.height - this.model.rows * this.pixelSize)/2;
+	};
+	View.prototype.update = function(){
+		this.model.forEachPixel(function(x, y, color){
+			this.context.save();
+			this.context.fillStyle = color;
+			this.context.fillRect(
+				x * this.pixelSize + this.horizontalOffset,
+				y * this.pixelSize + this.verticalOffset,
+				this.pixelSize,
+				this.pixelSize
+			);
+			this.context.restore();
+		}.bind(this));
+		this.grid();
+	};
+	View.prototype.grid = function(){
+		this.context.save();
+		this.context.strokeStyle = 'gray';
+		this.context.beginPath();
+		for (var x = 0; x <= this.model.columns; x++) {
+			this.context.moveTo(x * this.pixelSize, 0);
+			this.context.lineTo(x * this.pixelSize, this.canvas.height);
+		}
+		for (var y = 0; y <= this.model.columns; y++) {
+			this.context.moveTo(0, y * this.pixelSize);
+			this.context.lineTo(this.canvas.width, y * this.pixelSize);
+		}
+		this.context.stroke();
+		this.context.restore();
+	}
+
 })(window.sprite = window.sprite || {});
