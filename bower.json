@@ -23,7 +23,8 @@
     "spec",
     "application.js",
     "index.html",
-    "package.json"
+    "package.json",
+    "gulpFile.js"
   ],
   "dependencies": {
     "jasmine": "~2.1.3"
