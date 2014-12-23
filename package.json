@@ -1,0 +1,28 @@
+{
+  "name": "sprite-editor",
+  "private": true,
+  "version": "1.0.0",
+  "description": "A canvas based editor to create sprites",
+  "main": "sprite.editor.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Chair-of-Indefinite-Studies/sprite-editor.git"
+  },
+  "keywords": [
+    "fps"
+  ],
+  "author": "dvberkel <daan.v.berkel.1980@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Chair-of-Indefinite-Studies/sprite-editor/issues"
+  },
+  "homepage": "https://github.com/Chair-of-Indefinite-Studies/sprite-editor",
+  "devDependencies": {
+    "gulp": "^3.8.10",
+    "gulp-rename": "^1.2.0",
+    "gulp-uglify": "^1.0.2"
+  }
+}
