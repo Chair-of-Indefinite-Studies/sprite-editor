@@ -22,7 +22,8 @@
     "SpecRunner.html",
     "spec",
     "application.js",
-    "index.html"
+    "index.html",
+    "package.json"
   ],
   "dependencies": {
     "jasmine": "~2.1.3"
