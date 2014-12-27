@@ -33,3 +33,52 @@ The controller translates click events to model changes.
 ```js
 canvas.addEventListener('mousedown', sprite.editor.controllerFor(model, canvas));
 ```
+
+API
+---
+
+The model responds to the following API
+
+### Constructor
+
+* **columns**: the number of columns the sprite will be wide.
+* **rows**: the number of rows the sprite will be high.
+* **options** _optional_: an options hash that support the following
+keys
+
+* **brushColor** that defaults to `black`
+* **uncolored** that defaults to `none`
+
+### paintPixel
+
+Paints a pixel of the sprite.
+
+* **x**: the `x`-coordinate of the pixel that will be painted.
+* **y**: the `y`-coordinate of the pixel that will be painted.
+
+If either the `x`-coordinate or the `y`-coordinate is out of bounds an
+exception is thrown.
+
+### colorAt
+
+Returns the color of the pixel at the coordinate
+
+* **x**: the `x`-coordinate of the pixel that is inspected.
+* **y**: the `y`-coordinate of the pixel that is inspected.
+
+### changeBrushColor
+
+Changes the color of the brush with pixels are painted.
+
+* **color** a string representing the color which to paint.
+
+### forEachPixel
+
+Iterator for the pixels that are defined.
+
+* **callback** a callback that will be called for each pixel that is
+painted. It gets passed the following arguments
+
+1. **x**: the `x`-coordinate of the pixel.
+2. **y**: the `y`-coordinate of the pixel.
+3. **color**: the color of the pixel.
