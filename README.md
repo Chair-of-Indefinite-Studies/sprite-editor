@@ -6,7 +6,7 @@ A canvas based editor to create sprites.
 Usage
 -----
 
-The sprite-editor is composed of the following part.
+The sprite-editor is composed of the following parts.
 
 ### Model
 
