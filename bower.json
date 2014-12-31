@@ -26,7 +26,7 @@
     "package.json",
     "gulpFile.js"
   ],
-  "dependencies": {
+  "devDependencies": {
     "jasmine": "~2.1.3"
   }
 }
