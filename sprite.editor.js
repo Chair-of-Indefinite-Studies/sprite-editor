@@ -1,17 +1,4 @@
-;(function(sprite, undefined){
-	var Observable = function(){
-		this.observers = {};
-	};
-	Observable.prototype.on = function(event, callback){
-		(this.observers[event] = this.observers[event] || []).push(callback);
-	};
-	Observable.prototype.signal = function(event){
-		var args = Array.prototype.slice.call(arguments, 1);
-		(this.observers[event] || []).forEach(function(observer){
-			observer.apply(this, args);
-		}.bind(this));
-	};
-
+;(function(ns, sprite, undefined){
 	var editor = sprite.editor = {};
 
 	var defaultModelOptions = {
@@ -20,7 +7,7 @@
 	}
 
 	var Model = editor.Model = function(columns, rows, options){
-		Observable.call(this);
+		ns.Observable.call(this);
 		options = options || {};
 		for (var key in defaultModelOptions) {
 			this[key] = options[key] !== undefined ? options[key] : defaultModelOptions[key];
@@ -29,7 +16,7 @@
 		this.rows = rows;
 		this.pixels = {};
 	};
-	Model.prototype = Object.create(Observable.prototype);
+	Model.prototype = Object.create(ns.Observable.prototype);
 	Model.prototype.constructor = Model;
 	Model.prototype.paintPixel = function(x, y){
 		if (x < 0 || x >= this.columns || y < 0 || y >= this.rows) {
@@ -132,4 +119,4 @@
 			}
 		}
 	};
-})(window.sprite = window.sprite || {});
+})(ns, window.sprite = window.sprite || {});
