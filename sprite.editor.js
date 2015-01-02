@@ -102,21 +102,44 @@
 		this.context.restore();
 	}
 
-	editor.controllerFor = function(model, view){
-		return function(event){
-			var x = event.clientX - view.horizontalOffset - this.offsetLeft;
-			var y = event.clientY - view.verticalOffset - this.offsetTop;
-
-			var column = Math.floor(x/view.pixelSize);
-			var row = Math.floor(y/view.pixelSize);
-
-			try {
-				model.paintPixel(column, row);
-			} catch(e) {
-				if (!e.message.match(/^Not within bounds/)) {
-					throw e;
-				}
-			}
+	var Controller = function(model, view, canvas){
+		this.model = model;
+		this.view = view;
+		this.canvas = canvas;
+		this.drawing = false;
+		this.boundReceivePaintEvent = this.receivePaintEvent.bind(this);
+	};
+	Controller.prototype.startDrawing = function(event){
+		if (!this.drawing) {
+			this.drawing = true;
+			this.boundReceivePaintEvent(event);
+			this.canvas.addEventListener('mousemove', this.boundReceivePaintEvent);
 		}
+	};
+	Controller.prototype.stopDrawing = function(event){
+		if (this.drawing) {
+			this.drawing = false;
+			this.boundReceivePaintEvent(event);
+			this.canvas.removeEventListener('mousemove', this.boundReceivePaintEvent);
+		}
+	};
+	Controller.prototype.receivePaintEvent = function(event){
+		var x = event.clientX - this.view.horizontalOffset - this.canvas.offsetLeft;
+		var y = event.clientY - this.view.verticalOffset - this.canvas.offsetTop;
+
+		var column = Math.floor(x/this.view.pixelSize);
+		var row = Math.floor(y/this.view.pixelSize);
+
+		try {
+			this.model.paintPixel(column, row);
+		} catch(e) {
+		if (!e.message.match(/^Not within bounds/)) {
+			throw e;
+		}
+		}
+	};
+
+	editor.controllerFor = function(model, view, canvas){
+		return new Controller(model, view, canvas);
 	};
 })(ns, window.sprite = window.sprite || {});
