@@ -23,7 +23,7 @@ The view is responsible for showing the resulting sprite.
 
 ```js
 var canvas = document.getElementById('sprite-editor');
-new sprite.editor.View(model, canvas);
+var view = new sprite.editor.View(model, canvas);
 ```
 
 ### Controller
@@ -31,7 +31,9 @@ new sprite.editor.View(model, canvas);
 The controller translates click events to model changes.
 
 ```js
-canvas.addEventListener('mousedown', sprite.editor.controllerFor(model, canvas));
+var controller = sprite.editor.controllerFor(model, view, canvas);
+canvas.addEventListener('mousedown', controller.startDrawing.bind(controller));
+canvas.addEventListener('mouseup', controller.stopDrawing.bind(controller));
 ```
 
 API
