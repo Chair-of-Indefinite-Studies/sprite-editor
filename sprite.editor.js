@@ -63,6 +63,12 @@
 	View.prototype.update = function(){
 		this.model.forEachPixel(function(x, y, color){
 			this.context.save();
+			this.context.clearRect(
+				x * this.pixelSize + this.horizontalOffset,
+				y * this.pixelSize + this.verticalOffset,
+				this.pixelSize,
+				this.pixelSize
+			);
 			this.context.fillStyle = color;
 			this.context.fillRect(
 				x * this.pixelSize + this.horizontalOffset,
