@@ -129,7 +129,7 @@
 			);
 			this.context.lineTo(
 				this.canvas.width - this.horizontalOffset,
-				y * this.pixelSize - this.verticalOffset
+				y * this.pixelSize + this.verticalOffset
 			);
 		}
 		this.context.stroke();
