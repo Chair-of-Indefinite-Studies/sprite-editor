@@ -74,6 +74,24 @@ Changes the color of the brush with pixels are painted.
 
 * **color** a string representing the color which to paint.
 
+### increaseColumns
+
+Increases the number of columns used for this sprite.
+
+### decreaseColumns
+
+Decreases the number of columns used for this sprite. Will not
+decrease it past 1.
+
+### increaseRows
+
+Increases the number of rows used for this sprite.
+
+### decreaseColumns
+
+Decreases the number of rows used for this sprite. Will not
+decrease it past 1.
+
 ### forEachPixel
 
 Iterator for the pixels that are defined.
