@@ -32,6 +32,28 @@
 		}
 		return this.uncolored;
 	}
+	Model.prototype.increaseColumns = function(){
+		this.columns += 1;
+		this.signal('dimension', this.columns, this.rows);
+	}
+	Model.prototype.decreaseColumns = function(){
+		if(this.columns > 1){
+			for(var row in this.pixels) {
+				delete this.pixels[row][this.columns];
+			}
+		}
+		this.columns = Math.max(this.columns - 1, 1);
+		this.signal('dimension', this.columns, this.rows);
+	}
+	Model.prototype.increaseRows = function(){
+		this.rows += 1;
+		this.signal('dimension', this.columns, this.rows);
+	}
+	Model.prototype.decreaseRows = function(){
+		if (this.rows > 1) { delete this.pixels[this.rows]; }
+		this.rows = Math.max(this.rows - 1, 1);
+		this.signal('dimension', this.columns, this.rows);
+	}
 	Model.prototype.changeBrushColor = function(color){
 		this.brushColor = color !== undefined ? color : defaultModelOptions.brushColor;
 		this.signal('color', this.brushColor);

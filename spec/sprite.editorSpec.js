@@ -70,6 +70,49 @@ describe('sprite', function(){
 				expect(function(){ model.paintPixel(0,expectRows); }).toThrow();
 			});
 
+			it('should increase number of rows', function(){
+				var model = new sprite.editor.Model(expectedColumns, expectedRows);
+				model.increaseRows();
+
+				expect(model.columns).toBe(expectedColumns);
+				expect(model.rows).toBe(expectedRows + 1);
+			});
+
+			it('should decrease number of columns', function(){
+				var model = new sprite.editor.Model(expectedColumns, expectedRows);
+				model.decreaseColumns();
+
+				expect(model.columns).toBe(expectedColumns - 1);
+				expect(model.rows).toBe(expectedRows);
+			});
+
+			it('should decrease number of rows', function(){
+				var model = new sprite.editor.Model(expectedColumns, expectedRows);
+
+				model.decreaseRows();
+
+				expect(model.columns).toBe(expectedColumns);
+				expect(model.rows).toBe(expectedRows - 1);
+			});
+
+			it('should not decrease number of columns below 1', function(){
+				var model = new sprite.editor.Model(1, expectedRows);
+
+				model.decreaseColumns();
+
+				expect(model.columns).toBe(1);
+				expect(model.rows).toBe(expectedRows);
+			});
+
+			it('should not decrease number of rows below 1', function(){
+				var model = new sprite.editor.Model(expectedColumns, 1);
+
+				model.decreaseRows();
+
+				expect(model.columns).toBe(expectedColumns);
+				expect(model.rows).toBe(1);
+			});
+
 			describe('notifications', function(){
 				it('should notify of pixel paint', function(){
 					var notified = false;
@@ -105,6 +148,78 @@ describe('sprite', function(){
 
 					expect(notified).toBeTruthy();
 					expect(actualColor).toBe('green');
+				});
+
+				it('should notify of increase rows', function(){
+					var notified = false;
+					var actualColumns;
+					var actualRows;
+					var model = new sprite.editor.Model(expectedColumns, expectedRows);
+					model.on('dimension', function(columns, rows){
+						notified = true;
+						actualColumns = columns;
+						actualRows = rows;
+					});
+
+					model.increaseRows();
+
+					expect(notified).toBeTruthy();
+					expect(actualColumns).toBe(expectedColumns);
+					expect(actualRows).toBe(expectedRows + 1);
+				});
+
+				it('should notify of increase columns', function(){
+					var notified = false;
+					var actualColumns;
+					var actualRows;
+					var model = new sprite.editor.Model(expectedColumns, expectedRows);
+					model.on('dimension', function(columns, rows){
+						notified = true;
+						actualColumns = columns;
+						actualRows = rows;
+					});
+
+					model.increaseColumns();
+
+					expect(notified).toBeTruthy();
+					expect(actualColumns).toBe(expectedColumns + 1);
+					expect(actualRows).toBe(expectedRows);
+				});
+
+				it('should notify of decrease rows', function(){
+					var notified = false;
+					var actualColumns;
+					var actualRows;
+					var model = new sprite.editor.Model(expectedColumns, expectedRows);
+					model.on('dimension', function(columns, rows){
+						notified = true;
+						actualColumns = columns;
+						actualRows = rows;
+					});
+
+					model.decreaseRows();
+
+					expect(notified).toBeTruthy();
+					expect(actualColumns).toBe(expectedColumns);
+					expect(actualRows).toBe(expectedRows - 1);
+				});
+
+				it('should notify of decrease columns', function(){
+					var notified = false;
+					var actualColumns;
+					var actualRows;
+					var model = new sprite.editor.Model(expectedColumns, expectedRows);
+					model.on('dimension', function(columns, rows){
+						notified = true;
+						actualColumns = columns;
+						actualRows = rows;
+					});
+
+					model.decreaseColumns();
+
+					expect(notified).toBeTruthy();
+					expect(actualColumns).toBe(expectedColumns - 1);
+					expect(actualRows).toBe(expectedRows);
 				});
 			});
 		});
