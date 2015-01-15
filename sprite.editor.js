@@ -37,11 +37,7 @@
 		this.signal('dimension', this.columns, this.rows);
 	}
 	Model.prototype.decreaseColumns = function(){
-		if(this.columns > 1){
-			for(var row in this.pixels) {
-				delete this.pixels[row][this.columns];
-			}
-		}
+		if (this.columns > 1) { delete this.pixels[this.columns - 1]; }
 		this.columns = Math.max(this.columns - 1, 1);
 		this.signal('dimension', this.columns, this.rows);
 	}
@@ -50,7 +46,11 @@
 		this.signal('dimension', this.columns, this.rows);
 	}
 	Model.prototype.decreaseRows = function(){
-		if (this.rows > 1) { delete this.pixels[this.rows]; }
+		if(this.rows > 1){
+			for(var column in this.pixels) {
+				delete this.pixels[column][this.rows - 1];
+			}
+		}
 		this.rows = Math.max(this.rows - 1, 1);
 		this.signal('dimension', this.columns, this.rows);
 	}
@@ -61,7 +61,11 @@
 	Model.prototype.forEachPixel = function(callback){
 		for (var x in this.pixels) {
 			for (var y in this.pixels[x]) {
-				callback(x, y, this.pixels[x][y]);
+				callback(
+					Number.parseInt(x),
+					Number.parseInt(y),
+					this.pixels[x][y]
+				);
 			}
 		}
 	};
@@ -70,8 +74,8 @@
 		this.model = model;
 		this.canvas = canvas;
 		this.model.on('paint', this.update.bind(this));
+		this.model.on('dimension', this.initialize.bind(this));
 		this.initialize();
-		this.update();
 	};
 	View.prototype.initialize = function(){
 		this.pixelSize = Math.min(
@@ -79,8 +83,10 @@
 			this.canvas.height/this.model.rows
 		);
 		this.context = this.canvas.getContext('2d');
+		this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 		this.horizontalOffset = (this.canvas.width - this.model.columns * this.pixelSize)/2;
 		this.verticalOffset = (this.canvas.height - this.model.rows * this.pixelSize)/2;
+		this.update();
 	};
 	View.prototype.update = function(){
 		this.model.forEachPixel(function(x, y, color){

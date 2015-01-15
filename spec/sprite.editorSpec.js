@@ -222,6 +222,65 @@ describe('sprite', function(){
 					expect(actualRows).toBe(expectedRows);
 				});
 			});
+
+			describe('decrease', function(){
+				it ('column should remove the pixels of the last column', function(){
+					var model = new sprite.editor.Model(expectedColumns, expectedRows);
+					model.paintPixel(0, 0);
+					model.paintPixel(expectedColumns - 1, 0);
+					model.paintPixel(0, expectedRows - 1);
+					model.paintPixel(expectedColumns - 1, expectedRows - 1);
+
+					model.decreaseColumns();
+
+					var coordinates = [];
+					model.forEachPixel(function(x, y){
+						coordinates.push([x,y]);
+					});
+
+					expect(coordinates.length).toBe(2);
+					expect(coordinates).toContain([0, 0]);
+					expect(coordinates).toContain([0, expectedRows - 1]);
+				});
+
+				it ('row should remove the pixels of the last row', function(){
+					var model = new sprite.editor.Model(expectedColumns, expectedRows);
+					model.paintPixel(0, 0);
+					model.paintPixel(expectedColumns - 1, 0);
+					model.paintPixel(0, expectedRows - 1);
+					model.paintPixel(expectedColumns - 1, expectedRows - 1);
+
+					model.decreaseRows();
+
+					var coordinates = [];
+					model.forEachPixel(function(x, y){
+						coordinates.push([x,y]);
+					});
+
+					expect(coordinates.length).toBe(2);
+					expect(coordinates).toContain([0, 0]);
+					expect(coordinates).toContain([expectedColumns - 1, 0]);
+				});
+
+				it ('row should remove the pixels of the last row', function(){
+					var model = new sprite.editor.Model(expectedColumns, expectedRows);
+					model.paintPixel(0, 0);
+					model.paintPixel(expectedColumns - 1, 0);
+					model.paintPixel(0, expectedRows - 1);
+					model.paintPixel(expectedColumns - 1, expectedRows - 1);
+
+					model.decreaseRows();
+
+					var coordinates = [];
+					model.forEachPixel(function(x, y){
+						coordinates.push([x,y]);
+					});
+
+					expect(coordinates.length).toBe(2);
+					expect(coordinates).toContain([0, 0]);
+					expect(coordinates).toContain([expectedColumns - 1, 0]);
+				});
+			});
 		});
 	});
 });
