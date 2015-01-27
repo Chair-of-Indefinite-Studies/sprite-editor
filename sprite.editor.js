@@ -27,7 +27,7 @@
         this.signal('paint', x, y, this.brushColor);
     };
     Model.prototype.colorAt = function(x, y){
-        if (this.pixels[x] && this.pixels[y]) {
+        if (this.pixels[x] && this.pixels[x][y]) {
             return this.pixels[x][y];
         }
         return this.uncolored;

@@ -60,6 +60,10 @@ describe('sprite', function(){
 				var model = new sprite.editor.Model(expectedColumns, expectedRows);
 
 				expect(model.colorAt(0,0)).toBe('none');
+
+                model.paintPixel(0, 1);
+
+                expect(model.colorAt(0, 0)).toBe('none');
 			});
 
 			it('should throw an error on out of bounds paint', function(){
