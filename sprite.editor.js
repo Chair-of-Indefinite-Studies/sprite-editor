@@ -86,26 +86,30 @@
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.horizontalOffset = (this.canvas.width - this.model.columns * this.pixelSize)/2;
         this.verticalOffset = (this.canvas.height - this.model.rows * this.pixelSize)/2;
-        this.update();
+        this.updateAll();
     };
-    View.prototype.update = function(){
+    View.prototype.updateAll = function(){
         this.model.forEachPixel(function(x, y, color){
-            this.context.save();
-            this.context.clearRect(
-                x * this.pixelSize + this.horizontalOffset,
-                y * this.pixelSize + this.verticalOffset,
-                this.pixelSize,
-                this.pixelSize
-            );
-            this.context.fillStyle = color;
-            this.context.fillRect(
-                x * this.pixelSize + this.horizontalOffset,
-                y * this.pixelSize + this.verticalOffset,
-                this.pixelSize,
-                this.pixelSize
-            );
-            this.context.restore();
+            this.update(x, y, color)
         }.bind(this));
+        this.grid();
+    };
+    View.prototype.update = function(x, y, color){
+        this.context.save();
+        this.context.clearRect(
+            x * this.pixelSize + this.horizontalOffset,
+            y * this.pixelSize + this.verticalOffset,
+            this.pixelSize,
+            this.pixelSize
+        );
+        this.context.fillStyle = color;
+        this.context.fillRect(
+            x * this.pixelSize + this.horizontalOffset,
+            y * this.pixelSize + this.verticalOffset,
+            this.pixelSize,
+            this.pixelSize
+        );
+        this.context.restore();
         this.grid();
     };
     View.prototype.grid = function(){
