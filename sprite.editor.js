@@ -63,6 +63,14 @@
         this.pixels = {};
         this.signal('reset');
     }
+    Model.prototype.clone = function(original){
+        this.reset();
+        this.setDimensions(original.columns, original.rows);
+        original.forEachPixel(function(x, y, color){
+            this.changeBrushColor(color);
+            this.paintPixel(x, y);
+        }.bind(this));
+    }
     Model.prototype.forEachPixel = function(callback){
         for (var x in this.pixels) {
             for (var y in this.pixels[x]) {

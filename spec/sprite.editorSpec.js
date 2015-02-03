@@ -117,6 +117,19 @@ describe('sprite', function(){
 				expect(model.rows).toBe(expectedRows);
 			});
 
+            it('should clone from original', function(){
+                var model = new sprite.editor.Model(1, 1);
+
+                var original = new sprite.editor.Model(2, 2);
+                original.paintPixel(0,0);
+                model.clone(original);
+
+                expect(model.columns).toBe(2);
+                expect(model.rows).toBe(2);
+                expect(model.colorAt(0, 0)).toBe('black');
+            });
+
+
 			it('should not decrease number of rows below 1', function(){
 				var model = new sprite.editor.Model(expectedColumns, 1);
 
