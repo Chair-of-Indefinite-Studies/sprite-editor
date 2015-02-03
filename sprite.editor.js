@@ -32,18 +32,20 @@
         }
         return this.uncolored;
     }
-    Model.prototype.increaseColumns = function(){
-        this.columns += 1;
+    Model.prototype.setDimensions = function(columns, rows){
+        this.columns = Math.max(columns, 1);
+        this.rows = Math.max(rows, 1);
         this.signal('dimension', this.columns, this.rows);
+    }
+    Model.prototype.increaseColumns = function(){
+        this.setDimensions(this.columns + 1, this.rows);
     }
     Model.prototype.decreaseColumns = function(){
         if (this.columns > 1) { delete this.pixels[this.columns - 1]; }
-        this.columns = Math.max(this.columns - 1, 1);
-        this.signal('dimension', this.columns, this.rows);
+        this.setDimensions(this.columns - 1, this.rows);
     }
     Model.prototype.increaseRows = function(){
-        this.rows += 1;
-        this.signal('dimension', this.columns, this.rows);
+        this.setDimensions(this.columns, this.rows + 1);
     }
     Model.prototype.decreaseRows = function(){
         if(this.rows > 1){
@@ -51,8 +53,7 @@
                 delete this.pixels[column][this.rows - 1];
             }
         }
-        this.rows = Math.max(this.rows - 1, 1);
-        this.signal('dimension', this.columns, this.rows);
+        this.setDimensions(this.columns, this.rows - 1);
     }
     Model.prototype.changeBrushColor = function(color){
         this.brushColor = color !== undefined ? color : defaultModelOptions.brushColor;
