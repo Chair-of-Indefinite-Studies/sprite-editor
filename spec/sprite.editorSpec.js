@@ -66,6 +66,15 @@ describe('sprite', function(){
                 expect(model.colorAt(0, 0)).toBe('none');
 			});
 
+            it('should be able to reset', function(){
+                var model = new sprite.editor.Model(expectedColumns, expectedRows);
+                model.paintPixel(0, 0);
+
+                model.reset();
+
+                expect(model.colorAt(0, 0)).toBe('none');
+            });
+
 			it('should throw an error on out of bounds paint', function(){
 				var model = new sprite.editor.Model(expectedColumns, expectedRows);
 				expect(function(){ model.paintPixel(-1,0); }).toThrow();
@@ -225,6 +234,16 @@ describe('sprite', function(){
 					expect(actualColumns).toBe(expectedColumns - 1);
 					expect(actualRows).toBe(expectedRows);
 				});
+
+                it('should notify of reset', function(){
+                    var notified = false;
+                    var model = new sprite.editor.Model(expectedColumns, expectedRows);
+                    model.on('reset', function(){ notified = true; });
+
+                    model.reset();
+
+                    expect(notified).toBeTruthy();
+                });
 			});
 
 			describe('decrease', function(){

@@ -58,6 +58,10 @@
         this.brushColor = color !== undefined ? color : defaultModelOptions.brushColor;
         this.signal('color', this.brushColor);
     }
+    Model.prototype.reset = function(){
+        this.pixels = {};
+        this.signal('reset');
+    }
     Model.prototype.forEachPixel = function(callback){
         for (var x in this.pixels) {
             for (var y in this.pixels[x]) {
